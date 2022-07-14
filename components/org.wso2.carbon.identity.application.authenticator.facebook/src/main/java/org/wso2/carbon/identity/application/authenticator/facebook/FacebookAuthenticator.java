@@ -39,6 +39,7 @@ import org.wso2.carbon.identity.application.authentication.framework.exception.I
 import org.wso2.carbon.identity.application.authentication.framework.model.AuthenticatedUser;
 import org.wso2.carbon.identity.application.authentication.framework.util.FrameworkConstants;
 import org.wso2.carbon.identity.application.authentication.framework.util.FrameworkUtils;
+import org.wso2.carbon.identity.application.authenticator.oidc.OIDCAuthenticatorConstants;
 import org.wso2.carbon.identity.application.common.model.Claim;
 import org.wso2.carbon.identity.application.common.model.ClaimConfig;
 import org.wso2.carbon.identity.application.common.model.ClaimMapping;
@@ -244,6 +245,7 @@ public class FacebookAuthenticator extends AbstractApplicationAuthenticator impl
             }
 
             Map<String, Object> userInfoJson = getUserInfoJson(fbAuthUserInfoUrl, userInfoFields, token);
+            context.setProperty(OIDCAuthenticatorConstants.ID_TOKEN,JSONUtils.buildJSON(userInfoJson));
             buildClaims(context, userInfoJson, claimConfig);
         } catch (ApplicationAuthenticatorException e) {
             log.error("Failed to process Facebook Connect response.", e);
